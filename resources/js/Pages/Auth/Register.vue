@@ -11,7 +11,6 @@ import TextInput from "@/Components/TextInput.vue";
 const form = useForm({
     name: "",
     prenom: "",
-    telephone: "",
     email: "",
     password: "",
     password_confirmation: "",
@@ -60,20 +59,6 @@ const submit = () => {
                     autocomplete="prenom"
                 />
                 <InputError class="mt-2" :message="form.errors.prenom" />
-            </div>
-
-            <div>
-                <InputLabel for="telephone" value="Phone number" />
-                <TextInput
-                    id="telephone"
-                    v-model="form.telephone"
-                    type="text"
-                    class="mt-1 block w-full"
-                    required
-                    autofocus
-                    autocomplete="telephone"
-                />
-                <InputError class="mt-2" :message="form.errors.telephone" />
             </div>
 
             <div class="mt-4">
