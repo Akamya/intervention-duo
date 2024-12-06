@@ -1,5 +1,10 @@
 <?php
 
+
+use App\Http\Controllers\Admin\AdminUserController;
+
+
+use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -21,4 +26,21 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+});
+
+
+
+
+Route::get('/users', [AdminUserController::class, "index"])->name('users.index');
+
+// Route::post('/users/updated', [UserAdminController::class, "store"])->name('users.store');
+
+// PARTIE ADMIN
+Route::middleware(['auth'])->prefix('admin')->group(function () {
+
+    // Route::get('/users', function () {
+    //     $users = User::all();
+    //     return Inertia::render('User/index', ['users' => $users]);
+    // })->name('users.index');
+
 });
