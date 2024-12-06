@@ -14,6 +14,17 @@ return new class extends Migration
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
             $table->foreignId('client_id')->constrained('clients')->onDelete('cascade');
+            $table->enum('statut', ['Done', 'Pending', 'ToDo'])->default('todo');
+            $table->enum('categorie', [
+                'Bug',
+                'Reparation',
+                'Modification',
+                'Entretien',
+                'Logicielle',
+                'Restauration',
+                'Installation',
+                'Cafe'
+            ]);
             $table->string('commentaire')->nullable();
             $table->string('title');
             $table->timestamps();
