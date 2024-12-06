@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Ticket;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,10 @@ class InterventionFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'title' => fake()->name(),
+            'comment' => fake()->name(),
+            'user_id' => User::get()->random()->id,
+            'ticket_id' => Ticket::get()->random()->id,
         ];
     }
 }
