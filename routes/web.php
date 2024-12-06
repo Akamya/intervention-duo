@@ -1,20 +1,19 @@
 <?php
 
-
-use App\Http\Controllers\Admin\AdminUserController;
-
-
-use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+use App\Models\User;
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\Admin\AdminUserController;
+
+
+
+
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
+    return Inertia::render('Auth/Login', [
         'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
     ]);
 });
 
@@ -26,6 +25,7 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+    Route::get('/clients/index', [ClientController::class, 'index'])->name('clients.index');
 });
 
 
