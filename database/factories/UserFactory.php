@@ -27,9 +27,8 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
+            'nom' => fake()->name(),
             'prenom' => fake()->name(),
-            'telephone' => fake()->unique()->phoneNumber(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
@@ -63,7 +62,7 @@ class UserFactory extends Factory
         return $this->has(
             Team::factory()
                 ->state(fn(array $attributes, User $user) => [
-                    'name' => $user->name . '\'s Team',
+                    'nom' => $user->name . '\'s Team',
                     'user_id' => $user->id,
                     'personal_team' => true,
                 ])
