@@ -24,7 +24,7 @@ return new class extends Migration
                 'Restauration',
                 'Installation',
                 'Cafe'
-            ]);
+            ])->nullable();
             $table->string('commentaire')->nullable();
             $table->string('title');
             $table->timestamps();
