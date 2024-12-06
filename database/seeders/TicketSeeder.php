@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Intervention;
+use App\Models\Ticket;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,7 +13,7 @@ class TicketSeeder extends Seeder
      */
     public function run(): void
     {
-        Intervention::factory()
+        Ticket::factory()
             ->count(10)
             ->create();
     }
