@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Client;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,9 @@ class TicketFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'title' => fake()->name(),
+            'commentaire' => fake()->name(),
+            'client_id' => Client::get()->random()->id,
         ];
     }
 }
