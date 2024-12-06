@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Image;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -21,7 +22,9 @@ class DatabaseSeeder extends Seeder
         ]);
         $this->call([
             // RolesTableSeeder::class,
+            ClientSeeder::class,
             InterventionSeeder::class,
+            Image::class,
         ]);
     }
 }
