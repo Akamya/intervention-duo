@@ -12,7 +12,8 @@ class UserPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        // dd($user->is_admin);
+        return $user->is_admin;
     }
 
     /**
@@ -28,15 +29,20 @@ class UserPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->is_admin;
+    }
+
+    public function store(User $user): bool
+    {
+        return $user->is_admin;
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, User $model): bool
+    public function update(User $user): bool
     {
-        return false;
+        return $user->is_admin;
     }
 
     /**

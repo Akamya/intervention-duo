@@ -25,15 +25,12 @@ Route::middleware([
     Route::get('/users', [AdminUserController::class, "index"])->name('users.index');
 });
 
-
 // Route::post('/users/updated', [UserAdminController::class, "store"])->name('users.store');
 
 // PARTIE ADMIN
 Route::middleware(['auth'])->prefix('admin')->group(function () {
-
-    // Route::get('/users', function () {
-    //     $users = User::all();
-    //     return Inertia::render('User/index', ['users' => $users]);
-    // })->name('users.index');
-
+    Route::get('/users', [AdminUserController::class, "index"])->name('users.index');
+    Route::put('/users/{user}', [AdminUserController::class, "update"])->name('users.update');
+    Route::get('/users/create', [AdminUserController::class, "create"])->name('users.create');
+    Route::post('/users/store', [AdminUserController::class, "store"])->name('users.store');
 });
