@@ -3,10 +3,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Support\Facades\Gate;
+
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class AdminUserController extends Controller
@@ -14,13 +16,15 @@ class AdminUserController extends Controller
     public function index()
     {
         // On vérifie que l'utilisateur courant est un administrateur
-        // Gate::authorize('viewAny', User::class);
+        Gate::authorize('viewAny', User::class);
 
         // On récupère tous les utilisateurs avec pagination de 10 par page
-        $users = User::all();
+        $users = User::query()
+            ->select("id", "nom", "prenom", "email", "is_admin")
+            ->get();
 
         // On passe les utilisateurs à la vue `admin.users.index`
-        return Inertia::render('User/index', [
+        return Inertia::render('User/Index', [
             'users' => $users,
         ]);
     }
@@ -30,7 +34,7 @@ class AdminUserController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('User/Create');
     }
 
     /**
@@ -38,7 +42,24 @@ class AdminUserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validation des données
+        $validatedData = $request->validate([
+            'nom' => 'required|string|max:255',
+            'prenom' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'password' => 'required|string|max:125',
+        ]);
+
+        // Création et sauvegarde du client
+        $client = new User();
+        $client->nom = $validatedData['nom'];
+        $client->prenom = $validatedData['prenom'];
+        $client->email = $validatedData['email'];
+        $client->password = $validatedData['password'];
+        $client->save();
+
+        // Redirection
+        return redirect()->back()->banner('Créations avec succès.');
     }
 
     /**
@@ -71,26 +92,16 @@ class AdminUserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    // public function update(Request $request, User $user)
-    // {
-    //     Gate::authorize('update', $user);
-    //     // Validation du rôle
-    //     $request->validate([
-    //         // On vérifie que le rôle est bien un des rôles définis dans le modèle Role
-    //         'role' => 'required|in:' . implode(',', \App\Models\Role::roles()),
-    //     ]);
+    public function update(User $user)
+    {
+        Gate::authorize('update', $user);
 
-    //     // Mise à jour du rôle
-    //     // On récupère le rôle correspondant au nom du rôle passé dans la requête
-    //     $role = \App\Models\Role::where('name', $request->role)->first();
-    //     // On associe le rôle à l'utilisateur en passant par la relation
-    //     $user->role()->associate($role);
-    //     // On sauvegarde l'utilisateur en base de données
-    //     $user->save();
+        ($user->is_admin) ? $user->is_admin = false : $user->is_admin = true;
 
-    //     // Redirection vers la page de modification de l'utilisateur
-    //     return redirect()->back();
-    // }
+        $user->save();
+
+        return redirect()->back()->banner('Informations mises à jour avec succès.');
+    }
 
     /**
      * Remove the specified resource from storage.

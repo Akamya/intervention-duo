@@ -1,6 +1,17 @@
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
-defineProps(["users"]);
+// const props = defineProps(["users"]);
+import NavLink from "@/Components/NavLink.vue";
+
+import { useForm } from "@inertiajs/vue3";
+
+const props = defineProps(["users"]);
+const form = useForm(props);
+function update(id) {
+    // console.log(form.id);
+
+    form.put(route("users.update", id));
+}
 </script>
 
 <template>
@@ -10,6 +21,8 @@ defineProps(["users"]);
                 Liste des Techniciens
             </h2>
         </template>
+
+        <NavLink :href="route('users.create')"> Créer </NavLink>
         <div class="overflow-x-auto p-5">
             <table
                 class="table-auto w-full bg-white shadow-md rounded-lg overflow-hidden"
@@ -38,14 +51,24 @@ defineProps(["users"]);
                             {{ user.email }}
                         </td>
                         <td class="px-4 py-2 text-gray-800">
-                            <span
-                                v-if="user.is_admin"
-                                class="text-green-600 font-bold"
-                                >Oui</span
-                            >
-                            <span v-else class="text-red-600 font-bold"
-                                >Non</span
-                            >
+                            <form @submit.prevent="update(user.id)">
+                                <button
+                                    type="submit"
+                                    v-if="user.is_admin"
+                                    @click="update(user.id)"
+                                    class="text-green-600 font-bold"
+                                >
+                                    Oui
+                                </button>
+                                <button
+                                    type="submit"
+                                    v-else
+                                    @click="update(user.id)"
+                                    class="text-red-600 font-bold"
+                                >
+                                    Non
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 </tbody>
