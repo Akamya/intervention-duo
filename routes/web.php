@@ -19,8 +19,8 @@ Route::middleware([
     Route::get('/', [ClientController::class, 'index'])->name('clients.index');
     Route::get('/clients/create', [ClientController::class, "create"])->name('clients.create');
     Route::post('/clients/store', [ClientController::class, "store"])->name('clients.store');
-    Route::get('/clients/edit', [ClientController::class, "edit"])->name('clients.edit');
-    Route::put('/clients/update', [ClientController::class, "update"])->name('clients.update');
+    Route::get('/clients/edit/{id}', [ClientController::class, "edit"])->name('clients.edit');
+    Route::put('/clients/update/{client}', [ClientController::class, "update"])->name('clients.update');
     Route::delete('/clients/destroy/{id}', [ClientController::class, "destroy"])->name('clients.destroy');
     Route::get('/users', [AdminUserController::class, "index"])->name('users.index');
 });

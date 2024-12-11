@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 class ClientController extends Controller
@@ -44,25 +45,37 @@ class ClientController extends Controller
     return redirect()->route('clients.index');
 }
 
-public function edit(Client $client)
+public function edit($id)
     {
+        // dd($client);
+        $client = Client::findOrFail($id);
         return Inertia::render('Clients/Edit', [
             'client' => $client,
         ]);
+
     }
 
+    public function update(Request $request, Client $client)
+    {
+        // dd($client);
+        $validatedData = $request->validate([
+            'nom' => 'required|string|max:2000',
+            'prenom' => 'required|string|max:2000',
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:2000',
+                Rule::unique('clients')->ignore($client->id),
+            ],
+            'telephone' => 'required|string|max:2000',
+        ]);
 
-public function update(Request $request, Client $client)
-{
-    // Met à jour les autres champs
-    $client->nom = $request->validated()['nom'];
-    $client->prenom = $request->validated()['prenom'];
-    $client->email = $request->validated()['email'];
-    $client->telephone = $request->validated()['telephone'];
-    $client->save(); // Sauvegarde les modifications
+        $client->update($validatedData);
 
-    return redirect()->route('clients.index');
-}
+        return redirect()->route('clients.index');
+    }
+
 
 public function destroy($id)
     {
