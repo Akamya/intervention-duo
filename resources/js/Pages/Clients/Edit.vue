@@ -1,12 +1,16 @@
 <script setup>
+import { defineProps } from "@vue/runtime-core";
 import { useForm } from "@inertiajs/vue3";
-import Modal from "@/Components/Modal.vue";
+
+const props = defineProps(["client"]);
+// console.log(props);
 
 const form = useForm({
-    nom: "",
-    prenom: "",
-    email: "",
-    telephone: "",
+    id: props.client.id,
+    nom: props.client.nom, // Utiliser les valeurs du client ou une chaîne vide par défaut
+    prenom: props.client.prenom,
+    email: props.client.email,
+    telephone: props.client.telephone,
 });
 </script>
 
@@ -15,12 +19,14 @@ const form = useForm({
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
                 <h2 class="text-2xl font-bold mb-6 text-gray-700">
-                    Ajouter un client
+                    Modifier les informations d'un client
                 </h2>
 
                 <!-- Formulaire -->
                 <form
-                    @submit.prevent="form.post(route('clients.store'))"
+                    @submit.prevent="
+                        form.put(route('clients.update', props.client.id))
+                    "
                     enctype="multipart/form-data"
                     class="space-y-6"
                 >
@@ -125,5 +131,4 @@ const form = useForm({
             </div>
         </div>
     </div>
-    <Modal> </Modal>
 </template>

@@ -78,7 +78,10 @@ defineProps(["clients"]);
                         <td class="px-6 py-4 text-sm text-blue-500">
                             <button
                                 @click="
-                                    () => $inertia.get(route('clients.edit'))
+                                    () =>
+                                        $inertia.get(
+                                            route('clients.edit', client.id)
+                                        )
                                 "
                             >
                                 Modifier
