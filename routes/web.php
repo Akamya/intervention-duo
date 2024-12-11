@@ -33,4 +33,5 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::put('/users/{user}', [AdminUserController::class, "update"])->name('users.update');
     Route::get('/users/create', [AdminUserController::class, "create"])->name('users.create');
     Route::post('/users/store', [AdminUserController::class, "store"])->name('users.store');
+    Route::delete('/users/destroy/{id}', [AdminUserController::class, "destroy"])->name('users.destroy');
 });

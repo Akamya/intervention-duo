@@ -42,6 +42,8 @@ class AdminUserController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('store', User::class);
+
         // Validation des données
         $validatedData = $request->validate([
             'nom' => 'required|string|max:255',
@@ -96,18 +98,25 @@ class AdminUserController extends Controller
     {
         Gate::authorize('update', $user);
 
-        ($user->is_admin) ? $user->is_admin = false : $user->is_admin = true;
-
-        $user->save();
-
-        return redirect()->back()->banner('Informations mises à jour avec succès.');
+        if (Auth::id() !== $user->id) {
+            ($user->is_admin) ? $user->is_admin = false : $user->is_admin = true;
+            $user->save();
+            return redirect()->back()->banner('Informations mises à jour avec succès.');
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
-        //
+
+        $user = User::findOrFail($id);
+        Gate::authorize('delete', $user);
+
+        if (Auth::id() !== $user->id) {
+            $user->delete();
+            return redirect()->back()->banner('Informations mises à jour avec succès.');
+        }
     }
 }
