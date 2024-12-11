@@ -40,7 +40,7 @@ class UserPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user): bool
+    public function update(User $user, User $profil): bool
     {
         return $user->is_admin;
     }
@@ -50,7 +50,7 @@ class UserPolicy
      */
     public function delete(User $user, User $model): bool
     {
-        return false;
+        return  $user->is_admin;
     }
 
     /**
