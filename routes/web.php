@@ -22,6 +22,7 @@ Route::middleware([
     Route::get('/clients/edit/{id}', [ClientController::class, "edit"])->name('clients.edit');
     Route::put('/clients/update/{client}', [ClientController::class, "update"])->name('clients.update');
     Route::delete('/clients/destroy/{id}', [ClientController::class, "destroy"])->name('clients.destroy');
+    Route::get('/clients/show/{id}', [ClientController::class, "show"])->name('clients.show');
     Route::get('/users', [AdminUserController::class, "index"])->name('users.index');
 });
 

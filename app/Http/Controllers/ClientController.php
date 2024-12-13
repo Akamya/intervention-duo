@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
@@ -82,6 +83,23 @@ public function destroy($id)
         $client = Client::findOrFail($id); // Récupère le client
         $client->delete();
         return redirect()->back();
+    }
+
+    public function show($id)
+    {
+        $clients = Client::with('tickets')
+        ->findOrFail($id)
+        ->get();
+
+        $tickets = Ticket::query()
+        ->where('client_id', '=', $id)
+        ->orderByDesc('published_at')
+        ->get();
+
+        return Inertia::render('Clients/Show', [
+            'clients' => $clients,
+            'tickets' => $tickets,
+        ]);
     }
 
 }
