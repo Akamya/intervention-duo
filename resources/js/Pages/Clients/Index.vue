@@ -55,6 +55,11 @@ defineProps(["clients"]);
                             <th
                                 class="px-6 py-3 text-left text-sm font-semibold text-gray-600"
                             >
+                                Details
+                            </th>
+                            <th
+                                class="px-6 py-3 text-left text-sm font-semibold text-gray-600"
+                            >
                                 Modifier
                             </th>
                             <th
@@ -66,12 +71,6 @@ defineProps(["clients"]);
                     </thead>
                     <tbody>
                         <tr
-                            @click="
-                                () =>
-                                    $inertia.get(
-                                        route('clients.show', client.id)
-                                    )
-                            "
                             v-for="client in clients"
                             :key="client.id"
                             class="border-b hover:bg-gray-50 cursor-pointer"
@@ -87,6 +86,20 @@ defineProps(["clients"]);
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-800">
                                 {{ client.telephone }}
+                            </td>
+                            <td
+                                class="px-6 py-4 text-sm text-gray-800 font-bold"
+                            >
+                                <button
+                                    @click="
+                                        () =>
+                                            $inertia.get(
+                                                route('clients.show', client.id)
+                                            )
+                                    "
+                                >
+                                    Voir
+                                </button>
                             </td>
                             <td class="px-6 py-4 text-sm text-blue-500">
                                 <button
