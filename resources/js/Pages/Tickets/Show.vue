@@ -2,7 +2,7 @@
 import { defineProps } from "vue";
 import AppLayout from "@/Layouts/AppLayout.vue";
 
-const props = defineProps(["client", "tickets"]);
+const props = defineProps(["tickets", "interventions"]);
 </script>
 
 <template>

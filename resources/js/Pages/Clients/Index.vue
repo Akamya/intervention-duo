@@ -66,9 +66,15 @@ defineProps(["clients"]);
                     </thead>
                     <tbody>
                         <tr
+                            @click="
+                                () =>
+                                    $inertia.get(
+                                        route('clients.show', client.id)
+                                    )
+                            "
                             v-for="client in clients"
                             :key="client.id"
-                            class="border-b hover:bg-gray-50"
+                            class="border-b hover:bg-gray-50 cursor-pointer"
                         >
                             <td class="px-6 py-4 text-sm text-gray-800">
                                 {{ client.nom }}

@@ -18,8 +18,8 @@ class TicketFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => fake()->name(),
-            'commentaire' => fake()->name(),
+            'title' => fake()->sentence(),
+            'commentaire' => fake()->paragraph(),
             'client_id' => Client::get()->random()->id,
         ];
     }
