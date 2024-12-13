@@ -7,6 +7,9 @@ use Inertia\Inertia;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\TicketController;
+use App\Http\Controllers\InterventionController;
+use App\Models\Intervention;
+
 
 Route::middleware([
     'auth:sanctum',
@@ -22,10 +25,15 @@ Route::middleware([
     Route::get('/clients/edit/{id}', [ClientController::class, "edit"])->name('clients.edit');
     Route::put('/clients/update/{client}', [ClientController::class, "update"])->name('clients.update');
     Route::delete('/clients/destroy/{id}', [ClientController::class, "destroy"])->name('clients.destroy');
+
     Route::get('/clients/show/{id}', [ClientController::class, "show"])->name('clients.show');
     Route::get('/tickets/create', [TicketController::class, "create"])->name('tickets.create');
     Route::get('/tickets/show', [TicketController::class, "create"])->name('tickets.create');
     Route::get('/users', [AdminUserController::class, "index"])->name('users.index');
+
+    // Route::get('/interventions/index/{ticketid}', [InterventionController::class, "index"])->name('interventions.index');
+    Route::get('/interventions/index/{id}', [InterventionController::class, "index"])->name('interventions.index');
+    Route::get('/interventions/show/{id}', [InterventionController::class, "show"])->name('interventions.show');
 });
 
 // Route::post('/users/updated', [UserAdminController::class, "store"])->name('users.store');
