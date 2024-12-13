@@ -50,9 +50,15 @@ const props = defineProps(["client", "tickets"]);
                     </h2>
                     <ul>
                         <li
+                            @click="
+                                () =>
+                                    $inertia.get(
+                                        route('interventions.index', ticket.id)
+                                    )
+                            "
                             v-for="ticket in tickets"
                             :key="ticket.id"
-                            class="mb-4 p-4 border rounded shadow-sm"
+                            class="mb-4 p-4 border rounded shadow-sm cursor-pointer"
                         >
                             <p><strong>Titre :</strong> {{ ticket.title }}</p>
                             <p>
@@ -66,7 +72,7 @@ const props = defineProps(["client", "tickets"]);
 
                             <p>
                                 <strong>Date de création :</strong>
-                                {{ ticket.published_at }}
+                                {{ ticket.created_at }}
                             </p>
 
                             <p>
