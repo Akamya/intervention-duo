@@ -66,6 +66,7 @@ function is_admin() {
                                     Dashboard
                                 </NavLink>
                             </div>
+
                             <div
                                 v-if="is_admin()"
                                 class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex"
