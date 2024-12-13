@@ -7,7 +7,7 @@ import NavLink from "@/Components/NavLink.vue";
 
 import { useForm, usePage } from "@inertiajs/vue3";
 
-const props = defineProps(["interventions", "image"]);
+const props = defineProps(["interventions", "images"]);
 const form = useForm(props);
 </script>
 
@@ -18,10 +18,6 @@ const form = useForm(props);
                 Intervention
             </h2>
         </template>
-
-        <!-- <NavLink class="mt-4 text-white" :href="route('interventions.create')">
-            <button class="py-4 px-6 rounded-lg ml-4 bg-blue-400">Créer</button>
-        </NavLink> -->
 
         <div class="p-6 bg-gray-100">
             <div class="overflow-x-auto">
@@ -50,9 +46,20 @@ const form = useForm(props);
                             <td class="px-4 py-2 text-gray-800">
                                 {{ interventions.comment }}
                             </td>
+                        </tr>
+                        <tr>
+                            <td
+                                v-for="image in images"
+                                :key="image.id"
+                                class="px-4 py-2 text-gray-800"
+                            >
+                                <img
+                                    :src="`/storage/${image.img_path}`"
+                                    :alt="`${image.id}`"
+                                />
+                            </td>
                             <!-- </form> -->
                         </tr>
-
                         <!-- Ajouter plus de lignes ici -->
                     </tbody>
                 </table>
