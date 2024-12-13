@@ -9,15 +9,11 @@ defineProps(["clients"]);
     <AppLayout title="Client">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Clients
+                Liste des Clients
             </h2>
         </template>
         <!-- Contenu principal -->
         <div class="container mx-auto mt-10 px-4">
-            <h1 class="text-3xl font-bold text-center text-gray-800 mb-8">
-                Liste des clients
-            </h1>
-
             <div class="mt-6 flex justify-end">
                 <button
                     @click="() => $inertia.get(route('clients.create'))"
@@ -55,7 +51,7 @@ defineProps(["clients"]);
                             <th
                                 class="px-6 py-3 text-left text-sm font-semibold text-gray-600"
                             >
-                                Details
+                                Détails
                             </th>
                             <th
                                 class="px-6 py-3 text-left text-sm font-semibold text-gray-600"
@@ -73,7 +69,7 @@ defineProps(["clients"]);
                         <tr
                             v-for="client in clients"
                             :key="client.id"
-                            class="border-b hover:bg-gray-50 cursor-pointer"
+                            class="border-b hover:bg-gray-50"
                         >
                             <td class="px-6 py-4 text-sm text-gray-800">
                                 {{ client.nom }}

@@ -1,9 +1,15 @@
 <script setup>
+import { defineProps } from "vue";
 import { useForm } from "@inertiajs/vue3";
+
+const props = defineProps({
+    categories: Array, // Liste des catégories envoyée depuis Laravel
+});
 
 const form = useForm({
     commentaire: "",
     title: "",
+    categorie: "",
 });
 </script>
 
@@ -21,7 +27,6 @@ const form = useForm({
                     enctype="multipart/form-data"
                     class="space-y-6"
                 >
-                    <!-- Nom -->
                     <div>
                         <label
                             for="title"
@@ -43,7 +48,37 @@ const form = useForm({
                         </div>
                     </div>
 
-                    <!-- Prenom -->
+                    <div>
+                        <label
+                            for="categorie"
+                            class="block text-sm font-medium text-gray-700"
+                        >
+                            Catégorie
+                        </label>
+                        <select
+                            id="categorie"
+                            v-model="form.categorie"
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        >
+                            <option value="" disabled>
+                                Sélectionnez une catégorie
+                            </option>
+                            <option
+                                v-for="categorie in categories"
+                                :key="categorie.value"
+                                :value="categorie.value"
+                            >
+                                {{ categorie.label }}
+                            </option>
+                        </select>
+                        <div
+                            v-if="form.errors.categorie"
+                            class="text-sm text-red-500 mt-1"
+                        >
+                            {{ form.errors.categorie }}
+                        </div>
+                    </div>
+
                     <div>
                         <label
                             for="commentaire"
