@@ -86,20 +86,16 @@ public function destroy($id)
     }
 
     public function show($id)
-    {
-        $clients = Client::with('tickets')
-        ->findOrFail($id)
-        ->get();
+{
+    // Charger le client avec ses tickets associés
+    $client = Client::with('tickets')->findOrFail($id);
 
-        $tickets = Ticket::query()
-        ->where('client_id', '=', $id)
-        ->orderByDesc('published_at')
-        ->get();
+    // Retourner les données à la vue
+    return Inertia::render('Clients/Show', [
+        'client' => $client,
+        'tickets' => $client->tickets, // Ses tickets liés
+    ]);
+}
 
-        return Inertia::render('Clients/Show', [
-            'clients' => $clients,
-            'tickets' => $tickets,
-        ]);
-    }
 
 }
