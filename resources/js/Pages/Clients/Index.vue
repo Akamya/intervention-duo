@@ -6,7 +6,7 @@ defineProps(["clients"]);
 </script>
 
 <template>
-    <AppLayout title="Client">
+    <AppLayout title="Liste des clients">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Liste des Clients

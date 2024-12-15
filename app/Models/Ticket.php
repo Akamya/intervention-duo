@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ticket extends Model
 {
+    protected $fillable = [
+        'title',
+        'categorie',
+        'commentaire'
+    ];
     /** @use HasFactory<\Database\Factories\TicketFactory> */
     use HasFactory;
 
@@ -24,7 +29,7 @@ class Ticket extends Model
         ];
     }
 
-    // Constantes des statuts disponibles
+    // Constantes des catégories disponibles
     public const BUG = 'Bug';
     public const REPARATION = 'Reparation';
     public const MODIFICATION = 'Modification';
