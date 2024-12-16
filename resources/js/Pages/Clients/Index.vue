@@ -14,6 +14,7 @@ const props = defineProps(["clients"]);
 
 let selected_user_id = 0;
 let selected_user_nom = "";
+let selected_user_prenom = "";
 const form = useForm(props);
 
 // Texte saisi dans l'input
@@ -189,19 +190,6 @@ const closeModal = () => {
                                         </div>
                                     </template>
                                 </ActionModal>
-                                <!-- <button
-                                    @click="
-                                        () =>
-                                            $inertia.delete(
-                                                route(
-                                                    'clients.destroy',
-                                                    client.id
-                                                )
-                                            )
-                                    "
-                                >
-                                    Supprimer
-                                </button> -->
                             </td>
                         </tr>
                     </tbody>
@@ -226,7 +214,7 @@ const closeModal = () => {
                     }"
                     @click="deleteTechnicien()"
                 >
-                    Supprimer le client
+                    Supprimer
                 </DangerButton>
             </template>
         </DialogModal>

@@ -82,7 +82,7 @@ public function destroy($id)
     {
         $client = Client::findOrFail($id); // Récupère le client
         $client->delete();
-        return redirect()->back();
+        return redirect()->route('clients.index');
     }
 
     public function show($id)
