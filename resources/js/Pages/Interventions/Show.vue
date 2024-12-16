@@ -35,10 +35,10 @@ const form = useForm(props);
                     <tbody class="">
                         <tr class="hover:bg-gray-50 even:bg-gray-50">
                             <td class="px-4 py-2 text-gray-800">
-                                {{ interventions.user_id }}
+                                {{ interventions.ticket.client.nom }}
                             </td>
                             <td class="px-4 py-2 text-gray-800">
-                                {{ interventions.ticket_id }}
+                                {{ interventions.user.nom }}
                             </td>
                             <td class="px-4 py-2 text-gray-800">
                                 {{ interventions.title }}

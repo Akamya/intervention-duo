@@ -25,35 +25,34 @@ class ClientController extends Controller
     }
 
     public function store(Request $request)
-{
-    // Validation des données
-    $validatedData = $request->validate([
-        'nom' => 'required|string|max:2000',
-        'prenom' => 'required|string|max:2000',
-        'email' => 'required|string|email|unique:clients,email|max:2000',
-        'telephone' => 'required|string|max:2000',
-    ]);
+    {
+        // Validation des données
+        $validatedData = $request->validate([
+            'nom' => 'required|string|max:2000',
+            'prenom' => 'required|string|max:2000',
+            'email' => 'required|string|email|unique:clients,email|max:2000',
+            'telephone' => 'required|string|max:2000',
+        ]);
 
-    // Création et sauvegarde du client
-    $client = new Client();
-    $client->nom = $validatedData['nom'];
-    $client->prenom = $validatedData['prenom'];
-    $client->email = $validatedData['email'];
-    $client->telephone = $validatedData['telephone'];
-    $client->save();
+        // Création et sauvegarde du client
+        $client = new Client();
+        $client->nom = $validatedData['nom'];
+        $client->prenom = $validatedData['prenom'];
+        $client->email = $validatedData['email'];
+        $client->telephone = $validatedData['telephone'];
+        $client->save();
 
-    // Redirection
-    return redirect()->route('clients.index');
-}
+        // Redirection
+        return redirect()->route('clients.index');
+    }
 
-public function edit($id)
+    public function edit($id)
     {
         // dd($client);
         $client = Client::findOrFail($id);
         return Inertia::render('Clients/Edit', [
             'client' => $client,
         ]);
-
     }
 
     public function update(Request $request, Client $client)
@@ -78,7 +77,7 @@ public function edit($id)
     }
 
 
-public function destroy($id)
+    public function destroy($id)
     {
         $client = Client::findOrFail($id); // Récupère le client
         $client->delete();
@@ -86,16 +85,14 @@ public function destroy($id)
     }
 
     public function show($id)
-{
-    // Charger le client avec ses tickets associés
-    $client = Client::with('tickets')->findOrFail($id);
+    {
+        // Charger le client avec ses tickets associés
+        $client = Client::with('tickets')->findOrFail($id);
 
-    // Retourner les données à la vue
-    return Inertia::render('Clients/Show', [
-        'client' => $client,
-        'tickets' => $client->tickets, // Ses tickets liés
-    ]);
-}
-
-
+        // Retourner les données à la vue
+        return Inertia::render('Clients/Show', [
+            'client' => $client,
+            'tickets' => $client->tickets, // Ses tickets liés
+        ]);
+    }
 }

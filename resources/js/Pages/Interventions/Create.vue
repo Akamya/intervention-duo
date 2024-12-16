@@ -9,6 +9,12 @@ const form = useForm({
     img_path: "",
     // admin: "",
 });
+function sendform() {
+    form.post(route("interventions.store", props.id));
+}
+function handlefilechange(event) {
+    form.img_path = event.target.files;
+}
 </script>
 
 <template>
@@ -21,7 +27,7 @@ const form = useForm({
             </div>
         </template>
 
-        <form @submit.prevent="form.post(route('interventions.store', id))">
+        <form @submit.prevent="sendform">
             <div class="flex flex-col">
                 <!-- nom -->
                 <input type="text" v-model="form.title" placeholder="title" />
@@ -32,15 +38,32 @@ const form = useForm({
                     v-model="form.comment"
                     placeholder="comment"
                 />
-                <div v-if="form.errors.prenom">{{ form.errors.comment }}</div>
+                <div v-if="form.errors.comment">{{ form.errors.comment }}</div>
 
-                <input
-                    type="text"
-                    v-model="form.img_path"
-                    placeholder="Entrez l'URL de l'image"
-                />
-                <div v-if="form.errors.img_path" class="text-red-500">
-                    {{ form.errors.img_path }}
+                <div class="p-6">
+                    <h1 class="text-xl font-bold mb-4">Uploader une image</h1>
+
+                    <!-- Input pour choisir une image -->
+                    <input
+                        type="file"
+                        multiple
+                        id="img_path"
+                        name="img_path"
+                        @change="handlefilechange"
+                    />
+                    <div v-if="form.errors.img_path">
+                        {{ form.errors.img_path }}
+                    </div>
+
+                    <!-- Prévisualisation de l'image -->
+                    <div v-if="previewUrl" class="mt-4">
+                        <h2 class="text-lg font-medium mb-2">Aperçu :</h2>
+                        <img
+                            :src="previewUrl"
+                            alt="Aperçu de l'image"
+                            class="w-64 h-64 object-cover border"
+                        />
+                    </div>
                 </div>
                 <!-- Submit -->
                 <button type="submit" :disabled="form.processing">Creer</button>
