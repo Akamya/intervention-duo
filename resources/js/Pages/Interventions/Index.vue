@@ -9,7 +9,6 @@ import { useForm, usePage } from "@inertiajs/vue3";
 
 const props = defineProps(["interventions", "id"]);
 const form = useForm(props);
-function nomuser(user_id) {}
 </script>
 
 <template>
