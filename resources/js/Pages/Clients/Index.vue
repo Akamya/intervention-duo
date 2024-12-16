@@ -2,7 +2,7 @@
 import { defineProps } from "@vue/runtime-core";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { ref } from "vue";
-import { useForm, usePage } from "@inertiajs/vue3";
+import { router, useForm, usePage } from "@inertiajs/vue3";
 
 //MODAL
 import DialogModal from "@/Components/DialogModal.vue";
@@ -48,7 +48,10 @@ const confirmUserDeletion = (id, prenom, nom) => {
 
 function deleteTechnicien() {
     form.delete(route("clients.destroy", selected_user_id), {
-        onSuccess: () => closeModal(),
+        onSuccess: () => {
+            clientRecherche = props.clients;
+            closeModal();
+        },
     });
 }
 const closeModal = () => {
@@ -76,7 +79,6 @@ const closeModal = () => {
 
             <label class="mx-4 font-bold">Recherche : </label>
             <input
-                :clients
                 class="mr-5 w-64"
                 type="search"
                 name="search"
