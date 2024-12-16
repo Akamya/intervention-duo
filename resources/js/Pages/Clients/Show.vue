@@ -7,11 +7,6 @@ const props = defineProps(["client", "tickets"]);
 
 <template>
     <AppLayout title="Client">
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Clients
-            </h2>
-        </template>
         <div class="py-12">
             <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white shadow-xl sm:rounded-lg p-6">
@@ -72,7 +67,12 @@ const props = defineProps(["client", "tickets"]);
 
                             <p>
                                 <strong>Date de création :</strong>
-                                {{ ticket.created_at }}
+                                {{
+                                    new Date(
+                                        ticket.created_at
+                                    ).toLocaleDateString("fr-FR")
+                                }}
+                                <!-- Merci chatgpt -->
                             </p>
 
                             <p>
