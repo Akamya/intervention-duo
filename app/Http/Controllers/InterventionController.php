@@ -78,16 +78,15 @@ class InterventionController extends Controller
             'title' => 'required|string|max:55',
             'comment' => 'required|string|max:255',
             'img_path' => 'required|image|max:2048',
-
         ]);
         $intervention->ticket_id = $id;
         $intervention->client_id = Ticket::query()
             ->select("client_id")
             ->where('id', '=', $id)
             ->first();
-        $intervention->title = $request->validated()['title'];
-        $intervention->comment = $request->validated()['comment'];
-        $image->img_path = $request->file('img_path')->store('images', 'public');
+        $intervention->title = $validatedData['title'];
+        $intervention->comment = $validatedData['comment'];
+        $image->img_path = $validatedData['img_path']->store('images', 'public');
         $image->intervention_id = $id;
 
 
