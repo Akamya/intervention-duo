@@ -21,7 +21,7 @@ const form = useForm({
             </div>
         </template>
 
-        <form @submit.prevent="form.post(route('interventions.store'))">
+        <form @submit.prevent="form.post(route('interventions.store', id))">
             <div class="flex flex-col">
                 <!-- nom -->
                 <input type="text" v-model="form.title" placeholder="title" />
