@@ -23,7 +23,7 @@ class InterventionController extends Controller
 
         //with = si l'objet N'EXISTE PAS dans ce cas-la, utuilise with
         $interventions = Intervention::query()
-            ->with(['user', 'ticket.intervention'])
+            ->with(['user', 'ticket.client'])
             ->where('ticket_id', '=', $ticket_id->id)
             ->get();
 
@@ -38,7 +38,7 @@ class InterventionController extends Controller
 
         //load = si l'objet existe deja, dans ce cas-la, findOrFail recupere l'objet
         $interventions =  Intervention::findOrFail($id)
-            ->load(['user', 'ticket.intervention']);
+            ->load(['user', 'ticket.client']);
 
 
         $img = Image::query()
@@ -69,9 +69,6 @@ class InterventionController extends Controller
 
         //passage de la route, l'id du ticket
         $intervention = Intervention::make();
-
-
-
         $validatedData = $request->validate([
             'title' => 'required|string|max:55',
             'comment' => 'required|string|max:255',
@@ -110,35 +107,46 @@ class InterventionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
-    {
-        // dd($intervention);
-        $intervention = intervention::findOrFail($id);
-        return Inertia::render('Interventions/Edit', [
-            'intervention' => $intervention,
-        ]);
-    }
+    // public function edit($id)
+    // {
+    //     // dd($intervention);
+    //     $intervention = intervention::findOrFail($id);
+    //     return Inertia::render('Interventions/Edit', [
+    //         'intervention' => $intervention,
+    //     ]);
+    // }
 
-    public function update(Request $request, intervention $intervention)
-    {
-        // dd($intervention);
-        $validatedData = $request->validate([
-            'nom' => 'required|string|max:2000',
-            'prenom' => 'required|string|max:2000',
-            'email' => [
-                'required',
-                'string',
-                'email',
-                'max:2000',
-                Rule::unique('interventions')->ignore($intervention->id),
-            ],
-            'telephone' => 'required|string|max:2000',
-        ]);
+    // public function update(Request $request, intervention $intervention)
+    // {
+    //     // dd($intervention);
+    //     $validatedData = $request->validate([
+    //         'title' => 'required|string|max:55',
+    //         'comment' => 'required|string|max:255',
+    //     ]);
+    //     $request->validate([
+    //         'img_path' => 'nullable|array',
+    //         'img_path.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    //     ]);
+    //     $intervention->ticket_id = $intervention->ticket_id;
 
-        $intervention->update($validatedData);
+    //     $intervention->user_id = Auth::user()->id;
 
-        return redirect()->route('interventions.index');
-    }
+    //     $intervention->title = $validatedData['title'];
+    //     $intervention->comment = $validatedData['comment'];
+    //     $intervention->save();
+    //     if ($request->hasFile('img_path')) {
+    //         for ($i = 0; $i < count($request->file('img_path')); $i++) {
+    //             $image = Image::make();
+    //             $image->img_path = $request->file('img_path')[$i]->store('images', 'public');
+    //             $image->intervention_id = $intervention->id;
+    //             $image->update($validatedData);
+    //         }
+    //     }
+
+    //     $intervention->update($validatedData);
+
+    //     return redirect()->route('interventions.index');
+    // }
 
     /**
      * Remove the specified resource from storage.
