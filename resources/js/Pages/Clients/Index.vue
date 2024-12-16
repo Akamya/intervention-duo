@@ -1,8 +1,58 @@
 <script setup>
 import { defineProps } from "@vue/runtime-core";
 import AppLayout from "@/Layouts/AppLayout.vue";
+import { ref } from "vue";
+import { useForm, usePage } from "@inertiajs/vue3";
 
-defineProps(["clients"]);
+//MODAL
+import DialogModal from "@/Components/DialogModal.vue";
+import DangerButton from "@/Components/DangerButton.vue";
+import SecondaryButton from "@/Components/SecondaryButton.vue";
+import ActionModal from "@/Components/ActionModal.vue";
+
+const props = defineProps(["clients"]);
+
+let selected_user_id = 0;
+let selected_user_nom = "";
+const form = useForm(props);
+
+// Texte saisi dans l'input
+let search = ref("");
+
+// Résultats de la recherche
+let clientRecherche = ref(props.clients); // Initialise avec tous les clients
+
+// Fonction de recherche
+function function_rechercher() {
+    const searchValue = search.value.toLowerCase();
+
+    // Filtrer la liste des clients selon le texte saisi
+    clientRecherche.value = props.clients.filter((client) => {
+        return (
+            client.nom.toLowerCase().includes(searchValue) ||
+            client.prenom.toLowerCase().includes(searchValue)
+        );
+    });
+}
+
+// DELETE AVEC MODAL
+const confirmingUserDeletion = ref(false);
+
+const confirmUserDeletion = (id, prenom, nom) => {
+    selected_user_id = id;
+    selected_user_prenom = prenom;
+    selected_user_nom = nom;
+    confirmingUserDeletion.value = true;
+};
+
+function deleteTechnicien() {
+    form.delete(route("clients.destroy", selected_user_id), {
+        onSuccess: () => closeModal(),
+    });
+}
+const closeModal = () => {
+    confirmingUserDeletion.value = false;
+};
 </script>
 
 <template>
@@ -22,6 +72,18 @@ defineProps(["clients"]);
                     Ajouter un nouveau client
                 </button>
             </div>
+
+            <label class="mx-4 font-bold">Recherche : </label>
+            <input
+                :clients
+                class="mr-5 w-64"
+                type="search"
+                name="search"
+                id="search"
+                v-model="search"
+                placeholder="Rechercher un client"
+                @input="function_rechercher"
+            />
 
             <!-- Tableau des clients -->
             <div class="overflow-x-auto bg-white shadow-md rounded-lg">
@@ -67,7 +129,7 @@ defineProps(["clients"]);
                     </thead>
                     <tbody>
                         <tr
-                            v-for="client in clients"
+                            v-for="client in clientRecherche"
                             :key="client.id"
                             class="border-b hover:bg-gray-50"
                         >
@@ -110,7 +172,24 @@ defineProps(["clients"]);
                                 </button>
                             </td>
                             <td class="px-6 py-4 text-sm text-red-500">
-                                <button
+                                <ActionModal>
+                                    <template #content>
+                                        <div class="">
+                                            <DangerButton
+                                                @click="
+                                                    confirmUserDeletion(
+                                                        client.id,
+                                                        client.prenom,
+                                                        client.nom
+                                                    )
+                                                "
+                                            >
+                                                Supprimer
+                                            </DangerButton>
+                                        </div>
+                                    </template>
+                                </ActionModal>
+                                <!-- <button
                                     @click="
                                         () =>
                                             $inertia.delete(
@@ -122,12 +201,34 @@ defineProps(["clients"]);
                                     "
                                 >
                                     Supprimer
-                                </button>
+                                </button> -->
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
+        <DialogModal :show="confirmingUserDeletion" @close="closeModal">
+            <template #title>
+                Supprimer {{ selected_user_prenom }}
+                {{ selected_user_nom }}</template
+            >
+
+            <template #content> Le client va être supprimer </template>
+
+            <template #footer>
+                <SecondaryButton @click="closeModal"> Annuler </SecondaryButton>
+
+                <DangerButton
+                    class="ms-3"
+                    :class="{
+                        'opacity-25': form.processing,
+                    }"
+                    @click="deleteTechnicien()"
+                >
+                    Supprimer le client
+                </DangerButton>
+            </template>
+        </DialogModal>
     </AppLayout>
 </template>
