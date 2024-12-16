@@ -6,8 +6,11 @@ use App\Models\Image;
 use App\Models\Intervention;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB as FacadesDB;
 use Inertia\Inertia;
+
+use function Laravel\Prompts\select;
 
 class InterventionController extends Controller
 {
@@ -18,10 +21,11 @@ class InterventionController extends Controller
 
         $ticket_id =  Ticket::findOrFail($id);
 
+        //with = si l'objet N'EXISTE PAS dans ce cas-la, utuilise with
         $interventions = Intervention::query()
+            ->with(['user', 'ticket.intervention'])
             ->where('ticket_id', '=', $ticket_id->id)
             ->get();
-        // dd($interventions);
 
 
         return Inertia::render('Interventions/Index', [
@@ -31,11 +35,16 @@ class InterventionController extends Controller
     }
     public function show($id)
     {
-        $interventions =  Intervention::findOrFail($id);
+
+        //load = si l'objet existe deja, dans ce cas-la, findOrFail recupere l'objet
+        $interventions =  Intervention::findOrFail($id)
+            ->load(['user', 'ticket.intervention']);
+
+
         $img = Image::query()
             ->where('intervention_id', '=', $id)
             ->get();
-
+        // dd($interventions);
         return Inertia::render('Interventions/Show', [
             'interventions' => $interventions,
             'images' => $img,
@@ -60,45 +69,37 @@ class InterventionController extends Controller
 
         //passage de la route, l'id du ticket
         $intervention = Intervention::make();
-        $image = Image::make();
 
-        // RECUP DE TICKET_ID
 
-        // grace au ticket_id , recup le client id
-        // RECUP DE USER_ID
 
-        // 'title' => 'required|string|max:255',
-        // 'price' => 'required|max:255',
-        // 'address' => 'required|max:25',
-        // 'number_of_rooms' => 'required|max:25',
-        // 'size' => 'required|max:25',
-        // 'description' => 'required|max:25',
-        // 'img_path' => 'required|max:2000',
         $validatedData = $request->validate([
             'title' => 'required|string|max:55',
             'comment' => 'required|string|max:255',
-            'img_path' => 'required|image|max:2048',
+        ]);
+        $request->validate([
+            'img_path' => 'nullable|array',
+            'img_path.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
         $intervention->ticket_id = $id;
-        $intervention->client_id = Ticket::query()
-            ->select("client_id")
-            ->where('id', '=', $id)
-            ->first();
+
+        $intervention->user_id = Auth::user()->id;
+
         $intervention->title = $validatedData['title'];
         $intervention->comment = $validatedData['comment'];
-        $image->img_path = $validatedData['img_path']->store('images', 'public');
-        $image->intervention_id = $id;
-
-
-        // Si il y a une image, on la sauvegarde
-        // if ($request->hasFile('img')) {
-        //     $path = $request->file('img')->store('users', 'public');
-        //     $intervention->img_path = $path;
-        // }
-
         $intervention->save();
-        $image->save();
-        return back()->banner('Creation avec succès.');
+        if ($request->hasFile('img_path')) {
+
+            for ($i = 0; $i < count($request->file('img_path')); $i++) {
+                $image = Image::make();
+                $image->img_path = $request->file('img_path')[$i]->store('images', 'public');
+                $image->intervention_id = $intervention->id;
+                $image->save();
+            }
+        }
+
+
+
+        return redirect()->route("interventions.show", $intervention->id)->banner('Creation avec succès.');
     }
 
     /**
@@ -109,26 +110,35 @@ class InterventionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    // public function edit(interventions $interventions)
-    // {
-    //     // On vérifie que l'utilisateur courant est un administrateur
-    //     Gate::authorize('update', $interventions);
+    public function edit($id)
+    {
+        // dd($intervention);
+        $intervention = intervention::findOrFail($id);
+        return Inertia::render('Interventions/Edit', [
+            'intervention' => $intervention,
+        ]);
+    }
 
-    //     // On récupère tous les rôles disponibles
-    //     // On utilise la méthode pluck() pour récupérer uniquement le nom des rôles dans un tableau
-    //     $roles = \App\Models\Role::pluck('name');
+    public function update(Request $request, intervention $intervention)
+    {
+        // dd($intervention);
+        $validatedData = $request->validate([
+            'nom' => 'required|string|max:2000',
+            'prenom' => 'required|string|max:2000',
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:2000',
+                Rule::unique('interventions')->ignore($intervention->id),
+            ],
+            'telephone' => 'required|string|max:2000',
+        ]);
 
-    //     // On passe l'utilisateur et les rôles à la vue `admin.interventions.edit`
-    //     return view('admin.interventions.edit', [
-    //         'interventions' => $interventions,
-    //         'roles' => $roles,
-    //     ]);
-    // }
+        $intervention->update($validatedData);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Intervention $interventions) {}
+        return redirect()->route('interventions.index');
+    }
 
     /**
      * Remove the specified resource from storage.

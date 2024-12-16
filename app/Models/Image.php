@@ -9,7 +9,7 @@ class Image extends Model
 {
     /** @use HasFactory<\Database\Factories\ImageFactory> */
     use HasFactory;
-    public function image()
+    public function intervention()
     {
         return $this->belongsTo(Intervention::class);
     }

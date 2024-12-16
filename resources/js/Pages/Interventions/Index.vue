@@ -9,6 +9,7 @@ import { useForm, usePage } from "@inertiajs/vue3";
 
 const props = defineProps(["interventions", "id"]);
 const form = useForm(props);
+function nomuser(user_id) {}
 </script>
 
 <template>
@@ -55,10 +56,10 @@ const form = useForm(props);
                             "
                         >
                             <td class="px-4 py-2 text-gray-800">
-                                {{ intervention.user_id }}
+                                {{ intervention.ticket.client.nom }}
                             </td>
                             <td class="px-4 py-2 text-gray-800">
-                                {{ intervention.ticket_id }}
+                                {{ intervention.user.nom }}
                             </td>
                             <td class="px-4 py-2 text-gray-800">
                                 {{ intervention.title }}
