@@ -6,6 +6,9 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Support\Facades\Gate;
 
 use App\Http\Controllers\Controller;
+use App\Models\Client;
+use App\Models\Intervention;
+use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -118,5 +121,18 @@ class AdminUserController extends Controller
             $user->delete();
             return redirect()->back()->banner('Informations mises à jour avec succès.');
         }
+    }
+
+    public function reporting()
+    {
+        Gate::authorize('viewAny', User::class);
+
+        // $tickets = Ticket::with('interventions.user')->orderBy('created_at', 'DESC')->get();
+        $clients = Client::with('tickets.interventions.user')->orderBy('created_at', 'DESC')->get();
+
+        return Inertia::render('User/Reporting', [
+            // 'tickets' => $tickets,
+            'clients' => $clients,
+        ]);
     }
 }
