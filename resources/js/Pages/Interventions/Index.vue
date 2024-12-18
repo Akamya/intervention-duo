@@ -7,12 +7,15 @@ import NavLink from "@/Components/NavLink.vue";
 
 import { useForm, usePage } from "@inertiajs/vue3";
 
+const props = defineProps(["interventions"]);
+const form = useForm(props);
+
 const props = defineProps(["interventions", "ticket", "statuts"]);
-// console.log(props);
 const form = useForm({
     statut: props.ticket.statut,
 });
 function nomuser(user_id) {}
+console.log(form);
 </script>
 
 <template>
@@ -25,6 +28,7 @@ function nomuser(user_id) {}
 
         <NavLink
             class="mt-4 text-white"
+
             :href="route('interventions.create', ticket)"
         >
             <button class="py-4 px-6 rounded-lg ml-4 bg-blue-400">Créer</button>
@@ -82,6 +86,9 @@ function nomuser(user_id) {}
                             <th class="py-3 px-6 text-left">Technicien</th>
                             <th class="py-3 px-6 text-left">Titre</th>
                             <th class="py-3 px-6 text-left">Commentaire</th>
+                            <th class="py-3 px-6 text-left">Détails</th>
+
+                            <th class="py-3 px-6 text-left">Modifier</th>
                         </tr>
                     </thead>
                     <tbody class="">
@@ -89,15 +96,6 @@ function nomuser(user_id) {}
                             v-for="intervention in interventions"
                             :key="intervention.id"
                             class="hover:bg-gray-50 even:bg-gray-50"
-                            @click="
-                                () =>
-                                    $inertia.get(
-                                        route(
-                                            'interventions.show',
-                                            intervention.id
-                                        )
-                                    )
-                            "
                         >
                             <td class="px-4 py-2 text-gray-800">
                                 {{ intervention.ticket.client.nom }}
@@ -111,6 +109,38 @@ function nomuser(user_id) {}
                             <td class="px-4 py-2 text-gray-800">
                                 {{ intervention.comment }}
                             </td>
+                            <td class="px-4 py-2 text-gray-800">
+                                <button
+                                    @click="
+                                        () =>
+                                            $inertia.get(
+                                                route(
+                                                    'interventions.show',
+                                                    intervention.id
+                                                )
+                                            )
+                                    "
+                                >
+                                    Voir
+                                </button>
+                            </td>
+
+                            <td class="px-4 py-2 text-gray-800">
+                                <button
+                                    @click="
+                                        () =>
+                                            $inertia.get(
+                                                route(
+                                                    'interventions.edit',
+                                                    intervention.id
+                                                )
+                                            )
+                                    "
+                                >
+                                    Modifier
+                                </button>
+                            </td>
+
                             <!-- </form> -->
                         </tr>
 

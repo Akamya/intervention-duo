@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Intervention extends Model
 {
+    protected $fillable = [
+        'title',
+        'comment',
+    ];
     /** @use HasFactory<\Database\Factories\InterventionFactory> */
     use HasFactory;
 

@@ -59,7 +59,6 @@ function handlefilechange(event) {
                     <div v-if="previewUrl" class="mt-4">
                         <h2 class="text-lg font-medium mb-2">Aperçu :</h2>
                         <img
-                            :src="previewUrl"
                             alt="Aperçu de l'image"
                             class="w-64 h-64 object-cover border"
                         />

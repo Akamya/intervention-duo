@@ -122,46 +122,63 @@ class InterventionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    // public function edit($id)
-    // {
-    //     // dd($intervention);
-    //     $intervention = intervention::findOrFail($id);
-    //     return Inertia::render('Interventions/Edit', [
-    //         'intervention' => $intervention,
-    //     ]);
-    // }
+    public function edit($id)
+    {
+        // dd($intervention);
+        $intervention = intervention::findOrFail($id);
 
-    // public function update(Request $request, intervention $intervention)
-    // {
-    //     // dd($intervention);
-    //     $validatedData = $request->validate([
-    //         'title' => 'required|string|max:55',
-    //         'comment' => 'required|string|max:255',
-    //     ]);
-    //     $request->validate([
-    //         'img_path' => 'nullable|array',
-    //         'img_path.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-    //     ]);
-    //     $intervention->ticket_id = $intervention->ticket_id;
+        return Inertia::render('Interventions/Edit', [
+            'intervention' => $intervention,
+        ]);
+    }
 
-    //     $intervention->user_id = Auth::user()->id;
+    public function update(Request $request, Intervention $intervention)
+    {
+        // $client = Client::findOrFail($id); // Récupère le client
 
-    //     $intervention->title = $validatedData['title'];
-    //     $intervention->comment = $validatedData['comment'];
-    //     $intervention->save();
-    //     if ($request->hasFile('img_path')) {
-    //         for ($i = 0; $i < count($request->file('img_path')); $i++) {
-    //             $image = Image::make();
-    //             $image->img_path = $request->file('img_path')[$i]->store('images', 'public');
-    //             $image->intervention_id = $intervention->id;
-    //             $image->update($validatedData);
-    //         }
-    //     }
+        // dd($intervention);
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:55',
+            'comment' => 'required|string|max:255',
+        ]);
 
-    //     $intervention->update($validatedData);
+        // Mise à jour de l'intervention
+        $intervention->update($validatedData);
 
-    //     return redirect()->route('interventions.index');
-    // }
+        // Redirection ou réponse (selon vos besoins)
+        return redirect()->route('interventions.index', $intervention->id);
+
+
+
+
+        // $validatedData = $request->validate([
+        //     'title' => 'required|string|max:55',
+        //     'comment' => 'required|string|max:255',
+        // ]);
+        // $request->validate([
+        //     'img_path' => 'nullable|array',
+        //     'img_path.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        // ]);
+        // $intervention->ticket_id = $intervention->ticket_id;
+
+        // $intervention->user_id = Auth::user()->id;
+
+        // $intervention->title = $validatedData['title'];
+        // $intervention->comment = $validatedData['comment'];
+        // $intervention->save();
+        // if ($request->hasFile('img_path')) {
+        //     for ($i = 0; $i < count($request->file('img_path')); $i++) {
+        //         $image = Image::make();
+        //         $image->img_path = $request->file('img_path')[$i]->store('images', 'public');
+        //         $image->intervention_id = $intervention->id;
+        //         $image->update($validatedData);
+        //     }
+        // }
+
+        // $intervention->update($validatedData);
+
+
+    }
 
     /**
      * Remove the specified resource from storage.
