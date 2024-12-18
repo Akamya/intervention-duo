@@ -83,6 +83,12 @@ function is_admin() {
                                 >
                                     Les techniciens
                                 </NavLink>
+                                <NavLink
+                                    :href="route('users.reporting')"
+                                    :active="route().current('users.reporting')"
+                                >
+                                    Reporting
+                                </NavLink>
                             </div>
                         </div>
 

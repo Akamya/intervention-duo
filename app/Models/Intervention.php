@@ -18,10 +18,12 @@ class Intervention extends Model
     {
         return $this->belongsTo(User::class);
     }
+
     public function ticket()
     {
         return $this->belongsTo(Ticket::class);
     }
+
     public function images()
     {
         return $this->hasMany(Image::class);

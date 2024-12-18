@@ -58,4 +58,9 @@ class Ticket extends Model
     {
         return $this->belongsTo(Client::class);
     }
+
+    public function interventions()
+    {
+        return $this->hasMany(Intervention::class);
+    }
 }
