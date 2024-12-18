@@ -10,7 +10,8 @@ class Ticket extends Model
     protected $fillable = [
         'title',
         'categorie',
-        'commentaire'
+        'commentaire',
+        'statut'
     ];
     /** @use HasFactory<\Database\Factories\TicketFactory> */
     use HasFactory;

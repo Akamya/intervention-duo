@@ -37,6 +37,7 @@ Route::middleware([
     Route::get('/interventions/edit/{id}', [InterventionController::class, "edit"])->name('interventions.edit');
     Route::get('/interventions/create/{id}', [InterventionController::class, "create"])->name('interventions.create');
     Route::post('/interventions/store/{id}', [InterventionController::class, "store"])->name('interventions.store');
+    Route::put('/interventions/index/{ticket}', [InterventionController::class, "statutUpdate"])->name('interventions.statuts');
 });
 
 // Route::post('/users/updated', [UserAdminController::class, "store"])->name('users.store');
