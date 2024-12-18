@@ -11,8 +11,6 @@ const props = defineProps(["interventions", "ticket", "statuts"]);
 const form = useForm({
     statut: props.ticket.statut,
 });
-function nomuser(user_id) {}
-console.log(form);
 </script>
 
 <template>

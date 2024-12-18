@@ -26,7 +26,7 @@ class InterventionController extends Controller
             ->with(['user', 'ticket.client'])
             ->where('ticket_id', '=', $ticket->id)
             ->get();
-            $statuts = Ticket::statuts();
+        $statuts = Ticket::statuts();
 
 
         return Inertia::render('Interventions/Index', [
@@ -57,7 +57,6 @@ class InterventionController extends Controller
      */
     public function create($id)
     {
-
         return Inertia::render('Interventions/Create', [
             'id' => $id,
         ]);
@@ -102,18 +101,18 @@ class InterventionController extends Controller
     }
 
     public function statutUpdate(Request $request, Ticket $ticket)
-{
-    // Validation des données
-    $validatedData = $request->validate([
-        'statut' => 'required|string|in:' . implode(',', Ticket::statuts()), //Cela vérifie que la valeur de categorie est bien parmi les catégories définies dans la méthode Ticket::categories(). Merci chatgpt
-    ]);
+    {
+        // Validation des données
+        $validatedData = $request->validate([
+            'statut' => 'required|string|in:' . implode(',', Ticket::statuts()), //Cela vérifie que la valeur de categorie est bien parmi les catégories définies dans la méthode Ticket::categories(). Merci chatgpt
+        ]);
 
-    //sauvegarde
-    $ticket->update($validatedData);
+        //sauvegarde
+        $ticket->update($validatedData);
 
-    // Redirection
-    return redirect()->back();
-}
+        // Redirection
+        return redirect()->back();
+    }
     /**
      * Display the specified resource.
      */
@@ -125,7 +124,8 @@ class InterventionController extends Controller
     public function edit($id)
     {
         // dd($intervention);
-        $intervention = intervention::findOrFail($id);
+        $intervention = intervention::findOrFail($id)
+            ->load(['images']);
 
         return Inertia::render('Interventions/Edit', [
             'intervention' => $intervention,
@@ -142,46 +142,41 @@ class InterventionController extends Controller
             'comment' => 'required|string|max:255',
         ]);
 
-        // Mise à jour de l'intervention
         $intervention->update($validatedData);
 
         // Redirection ou réponse (selon vos besoins)
-        return redirect()->route('interventions.index', $intervention->id);
-
-
-
-
-        // $validatedData = $request->validate([
-        //     'title' => 'required|string|max:55',
-        //     'comment' => 'required|string|max:255',
-        // ]);
-        // $request->validate([
-        //     'img_path' => 'nullable|array',
-        //     'img_path.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        // ]);
-        // $intervention->ticket_id = $intervention->ticket_id;
-
-        // $intervention->user_id = Auth::user()->id;
-
-        // $intervention->title = $validatedData['title'];
-        // $intervention->comment = $validatedData['comment'];
-        // $intervention->save();
-        // if ($request->hasFile('img_path')) {
-        //     for ($i = 0; $i < count($request->file('img_path')); $i++) {
-        //         $image = Image::make();
-        //         $image->img_path = $request->file('img_path')[$i]->store('images', 'public');
-        //         $image->intervention_id = $intervention->id;
-        //         $image->update($validatedData);
-        //     }
-        // }
-
-        // $intervention->update($validatedData);
-
-
+        return redirect()->route('interventions.index', $intervention->ticket_id);
     }
 
+
+    public function rajout_images(Request $request, $intervention_id)
+    {
+        $request->validate([
+            'img_path' => 'nullable|array',
+            'img_path.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+
+        // dd($request->hasFile('img_path'));
+
+        if ($request->hasFile('img_path')) {
+
+            for ($i = 0; $i < count($request->file('img_path')); $i++) {
+                $image = Image::make();
+                $image->img_path = $request->file('img_path')[$i]->store('images', 'public');
+                $image->intervention_id = $intervention_id;
+                $image->save();
+            }
+        }
+        return redirect()->route("interventions.edit", $intervention_id)->banner('Creation avec succès.');
+    }
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id) {}
+    public function destroy($id)
+    {
+        $image = Image::findOrFail($id); // Récupère le client
+        $image->delete();
+        return redirect()->back();
+    }
 }
