@@ -19,18 +19,20 @@ class InterventionController extends Controller
         // On vérifie que l'utilisateur courant est un administrateur
         // Gate::authorize('viewAny', interventions::class);
 
-        $ticket_id =  Ticket::findOrFail($id);
+        $ticket =  Ticket::findOrFail($id);
 
         //with = si l'objet N'EXISTE PAS dans ce cas-la, utuilise with
         $interventions = Intervention::query()
             ->with(['user', 'ticket.client'])
-            ->where('ticket_id', '=', $ticket_id->id)
+            ->where('ticket_id', '=', $ticket->id)
             ->get();
+            $statuts = Ticket::statuts();
 
 
         return Inertia::render('Interventions/Index', [
             'interventions' => $interventions,
-            'id' => $id,
+            'ticket' => $ticket,
+            'statuts' => $statuts,
         ]);
     }
     public function show($id)
@@ -99,6 +101,19 @@ class InterventionController extends Controller
         return redirect()->route("interventions.show", $intervention->id)->banner('Creation avec succès.');
     }
 
+    public function statutUpdate(Request $request, Ticket $ticket)
+{
+    // Validation des données
+    $validatedData = $request->validate([
+        'statut' => 'required|string|in:' . implode(',', Ticket::statuts()), //Cela vérifie que la valeur de categorie est bien parmi les catégories définies dans la méthode Ticket::categories(). Merci chatgpt
+    ]);
+
+    //sauvegarde
+    $ticket->update($validatedData);
+
+    // Redirection
+    return redirect()->back();
+}
     /**
      * Display the specified resource.
      */

@@ -9,6 +9,11 @@ import { useForm, usePage } from "@inertiajs/vue3";
 
 const props = defineProps(["interventions"]);
 const form = useForm(props);
+
+const props = defineProps(["interventions", "ticket", "statuts"]);
+const form = useForm({
+    statut: props.ticket.statut,
+});
 function nomuser(user_id) {}
 console.log(form);
 </script>
@@ -23,11 +28,53 @@ console.log(form);
 
         <NavLink
             class="mt-4 text-white"
-            :href="route('interventions.create', form.ticket_id)"
+
+            :href="route('interventions.create', ticket)"
         >
             <button class="py-4 px-6 rounded-lg ml-4 bg-blue-400">Créer</button>
         </NavLink>
-
+        <form
+            @submit.prevent="form.put(route('interventions.statuts', ticket))"
+            enctype="multipart/form-data"
+            class="space-y-6"
+        >
+            <div>
+                <label
+                    for="statut"
+                    class="block text-sm font-medium text-gray-700"
+                >
+                    Statut
+                </label>
+                <select
+                    id="statut"
+                    v-model="form.statut"
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                >
+                    <option value="" disabled>Statut</option>
+                    <option
+                        v-for="statut in statuts"
+                        :key="statut"
+                        :value="statut"
+                    >
+                        {{ statut }}
+                    </option>
+                </select>
+                <div
+                    v-if="form.errors.statut"
+                    class="text-sm text-red-500 mt-1"
+                >
+                    {{ form.errors.statut }}
+                </div>
+            </div>
+            <div class="mt-6 flex justify-end">
+                <button
+                    type="submit"
+                    class="px-6 py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition"
+                >
+                    Enregistrer les modifications
+                </button>
+            </div>
+        </form>
         <div class="p-6 bg-gray-100">
             <div class="overflow-x-auto">
                 <table class="min-w-full bg-white border border-gray-200">
