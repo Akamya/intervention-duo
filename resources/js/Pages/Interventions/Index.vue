@@ -7,9 +7,6 @@ import NavLink from "@/Components/NavLink.vue";
 
 import { useForm, usePage } from "@inertiajs/vue3";
 
-const props = defineProps(["interventions"]);
-const form = useForm(props);
-
 const props = defineProps(["interventions", "ticket", "statuts"]);
 const form = useForm({
     statut: props.ticket.statut,
@@ -28,7 +25,6 @@ console.log(form);
 
         <NavLink
             class="mt-4 text-white"
-
             :href="route('interventions.create', ticket)"
         >
             <button class="py-4 px-6 rounded-lg ml-4 bg-blue-400">Créer</button>
