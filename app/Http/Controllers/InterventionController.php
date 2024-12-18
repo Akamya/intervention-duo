@@ -111,7 +111,7 @@ class InterventionController extends Controller
         $ticket->update($validatedData);
 
         // Redirection
-        return redirect()->back();
+        return redirect()->back()->banner('Mise à jour avec succès.');;
     }
     /**
      * Display the specified resource.
