@@ -70,6 +70,7 @@ const closeModal = () => {
         <div class="container mx-auto mt-10 px-4">
             <div class="mt-6 flex justify-end">
                 <button
+                    id="create"
                     @click="() => $inertia.get(route('clients.create'))"
                     class="px-6 py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition"
                 >
@@ -179,6 +180,7 @@ const closeModal = () => {
                                     <template #content>
                                         <div class="">
                                             <DangerButton
+                                                id="open-modal-button"
                                                 @click="
                                                     confirmUserDeletion(
                                                         client.id,

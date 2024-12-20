@@ -105,6 +105,7 @@ const form = useForm({
                             </td>
                             <td class="px-4 py-2 text-gray-800">
                                 <button
+                                    id="voir"
                                     @click="
                                         () =>
                                             $inertia.get(
@@ -121,6 +122,7 @@ const form = useForm({
 
                             <td class="px-4 py-2 text-gray-800">
                                 <button
+                                    id="open-modal-button"
                                     @click="
                                         () =>
                                             $inertia.get(
