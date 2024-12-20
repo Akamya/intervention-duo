@@ -6,7 +6,7 @@
 /storage/*.key
 /storage/pail
 /vendor
-.env.test
+.env.dusk.local
 .env
 .env.backup
 .env.production
