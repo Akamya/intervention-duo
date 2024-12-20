@@ -29,6 +29,8 @@ Route::middleware([
     Route::get('/clients/show/{id}', [ClientController::class, "show"])->name('clients.show');
     Route::get('/tickets/create/{client}', [TicketController::class, "create"])->name('tickets.create');
     Route::post('/tickets/store', [TicketController::class, "store"])->name('tickets.store');
+
+
     Route::get('/users', [AdminUserController::class, "index"])->name('users.index');
 
     // Route::get('/interventions/index/{ticketid}', [InterventionController::class, "index"])->name('interventions.index');
