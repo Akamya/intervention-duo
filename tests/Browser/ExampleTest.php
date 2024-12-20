@@ -62,3 +62,20 @@ test('click modal', function () {
             ->screenshot('client-created'); // Capture d'écran après création
     });
 });
+
+// test('non-admin cannot access technician page', function () {
+//     $this->browse(function (Browser $browser) {
+//         // Crée un utilisateur standard (non admin)
+//         $user = User::factory()->create([
+//             'is_admin' => 0,
+//         ]);
+
+//         // Connexion et tentative d'accès à la page "technicien"
+//         $browser->loginAs($user) // Connexion avec l'utilisateur standard
+//             ->visit('/admin/technicien') // Essaie d'accéder à la page "technicien"
+//             ->pause(1000) // Pause pour s'assurer que la redirection ou le message se charge
+//             ->assertPathIsNot('/admin/technicien') // Vérifie que l'utilisateur n'est pas resté sur la page
+//             ->assertSee('Access denied'); // Vérifie qu'un message d'erreur s'affiche
+//     });
+// });
+
