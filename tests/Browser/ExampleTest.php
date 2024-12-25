@@ -55,6 +55,7 @@ use Tests\DuskTestCase;
 //             ->click('#submit-button') // Clic sur le bouton de soumission
 //             ->waitForLocation('/') // Attendre que la redirection vers la page des clients soit complète
 
+
 //             ->click('#open-modal-button') // Clic sur le bouton qui ouvre le modal
 //             ->pause(1000) // Pause pour s'assurer que le modal est complètement chargé
 //             ->screenshot('modal-opened') // Capture d'écran du modal
@@ -62,3 +63,29 @@ use Tests\DuskTestCase;
 //             ->screenshot('client-created'); // Capture d'écran après création
 //     });
 // });
+
+            ->click('#open-modal-button') // Clic sur le bouton qui ouvre le modal
+            ->pause(1000) // Pause pour s'assurer que le modal est complètement chargé
+            ->screenshot('modal-opened') // Capture d'écran du modal
+            ->assertSee('Clients') // Vérifie que le contenu attendu est visible
+            ->screenshot('client-created'); // Capture d'écran après création
+    });
+});
+
+// test('non-admin cannot access technician page', function () {
+//     $this->browse(function (Browser $browser) {
+//         // Crée un utilisateur standard (non admin)
+//         $user = User::factory()->create([
+//             'is_admin' => 0,
+//         ]);
+
+//         // Connexion et tentative d'accès à la page "technicien"
+//         $browser->loginAs($user) // Connexion avec l'utilisateur standard
+//             ->visit('/admin/technicien') // Essaie d'accéder à la page "technicien"
+//             ->pause(1000) // Pause pour s'assurer que la redirection ou le message se charge
+//             ->assertPathIsNot('/admin/technicien') // Vérifie que l'utilisateur n'est pas resté sur la page
+//             ->assertSee('Access denied'); // Vérifie qu'un message d'erreur s'affiche
+//     });
+// });
+
+
