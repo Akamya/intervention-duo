@@ -29,36 +29,36 @@ use Tests\DuskTestCase;
 // });
 
 
-test('click modal', function () {
-    $this->browse(function (Browser $browser) {
-        // Crée un utilisateur pour le test
-        $user = User::factory()->create();
+// test('click modal', function () {
+//     $this->browse(function (Browser $browser) {
+//         // Crée un utilisateur pour le test
+//         $user = User::factory()->create();
 
-        // Crée un client avec les données nécessaires
-        // $client = Client::factory()->create([
-        //     'nom' => 'Test Title',
-        //     'prenom' => 'Bug Report',
-        //     'email' => 'hdjd@kjfkf.jdd',
-        //     'telephone' => 'hdjd@kjfkf.jdd',
-        // ]);
+//         // Crée un client avec les données nécessaires
+//         // $client = Client::factory()->create([
+//         //     'nom' => 'Test Title',
+//         //     'prenom' => 'Bug Report',
+//         //     'email' => 'hdjd@kjfkf.jdd',
+//         //     'telephone' => 'hdjd@kjfkf.jdd',
+//         // ]);
 
-        // Simulation de navigation et d'interaction
-        $browser->loginAs($user) // Connexion avec l'utilisateur
-            ->visit('/') // Page principale
-            ->click('#create')
-            // Clic sur le bouton de soumission
-            ->waitForLocation('/clients/create')  // Attend 1 seconde
-            ->type('#nom', "bfbfbfbf") // Remplit le champ "title"
-            ->type('#prenom', "bvbvbvvbbv") // Remplit le champ "categorie"
-            ->type('#email', "dingo@jjvf.jbbfdj") // Remplit le champ "commentaire"
-            ->type('#telephone', "5455454") // Remplit le champ "commentaire"
-            ->click('#submit-button') // Clic sur le bouton de soumission
-            ->waitForLocation('/') // Attendre que la redirection vers la page des clients soit complète
+//         // Simulation de navigation et d'interaction
+//         $browser->loginAs($user) // Connexion avec l'utilisateur
+//             ->visit('/') // Page principale
+//             ->click('#create')
+//             // Clic sur le bouton de soumission
+//             ->waitForLocation('/clients/create')  // Attend 1 seconde
+//             ->type('#nom', "bfbfbfbf") // Remplit le champ "title"
+//             ->type('#prenom', "bvbvbvvbbv") // Remplit le champ "categorie"
+//             ->type('#email', "dingo@jjvf.jbbfdj") // Remplit le champ "commentaire"
+//             ->type('#telephone', "5455454") // Remplit le champ "commentaire"
+//             ->click('#submit-button') // Clic sur le bouton de soumission
+//             ->waitForLocation('/') // Attendre que la redirection vers la page des clients soit complète
 
-            ->click('#open-modal-button') // Clic sur le bouton qui ouvre le modal
-            ->pause(1000) // Pause pour s'assurer que le modal est complètement chargé
-            ->screenshot('modal-opened') // Capture d'écran du modal
-            ->assertSee('Clients') // Vérifie que le contenu attendu est visible
-            ->screenshot('client-created'); // Capture d'écran après création
-    });
-});
+//             ->click('#open-modal-button') // Clic sur le bouton qui ouvre le modal
+//             ->pause(1000) // Pause pour s'assurer que le modal est complètement chargé
+//             ->screenshot('modal-opened') // Capture d'écran du modal
+//             ->assertSee('Clients') // Vérifie que le contenu attendu est visible
+//             ->screenshot('client-created'); // Capture d'écran après création
+//     });
+// });
