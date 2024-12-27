@@ -1,22 +1,49 @@
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
-import { usePage } from "@inertiajs/vue3";
+import { usePage, useForm } from "@inertiajs/vue3";
 
 // Récupération des données de page transmises par le contrôleur Laravel via Inertia
+
+// const propsTickets = defineProps(["tickets"]);
+// const { propsTickets } = usePage();
+
+// console.log(propsTickets);
+
 const { props } = usePage();
-console.log(props);
+// console.log(props);
 const clients = props.clients; // clients avec tickets et interventions associés
+const tickets = props.tickets;
+
+const ticketsAnnee = props.ticketsAnnee;
+const ticketsMois = props.ticketsMois;
+const ticketsJour = props.ticketsJour;
+const ticketsgraphique = props.ticketsgraphique;
+
+// console.log(ticketsAnnee);
+console.log(ticketsAnnee);
+// console.log(ticketsgraphique);
 </script>
 
 <template>
     <AppLayout title="Tickets et Interventions">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Liste des Tickets et Interventions du Client
+                Liste des Tickets et Interventions des Clients
             </h2>
         </template>
+        <div v-for="ticketAnnee in ticketsAnnee" class="mb-8">
+            <p>Date : {{ ticketAnnee.created_at }}</p>
+            <p>Annee : {{ ticketAnnee.annee }}</p>
 
-        <div class="p-6 bg-gray-100">
+            <p>Mois : {{ ticketAnnee.mois }}</p>
+
+            <p>Jour : {{ ticketAnnee.jour }}</p>
+            <p>count: {{ ticketAnnee.count }}</p>
+
+            <!-- <p>Jour :{{ ticketJour.count }}</p> -->
+        </div>
+
+        <div class="p-6 bg-gray-100 m-2 border-b-red-600">
             <div v-for="client in clients" :key="client.id" class="mb-8">
                 <!-- Client -->
                 <div class="bg-white shadow rounded-lg p-4 mb-4">
@@ -25,6 +52,9 @@ const clients = props.clients; // clients avec tickets et interventions associé
                     </h3>
                     <p class="text-sm text-gray-600">
                         Email : {{ client.email }}
+                    </p>
+                    <p class="text-sm text-gray-600 font-extrabold">
+                        Nombre de ticket(s) : {{ client.tickets.length }}
                     </p>
                 </div>
 
@@ -46,6 +76,10 @@ const clients = props.clients; // clients avec tickets et interventions associé
                         <p class="text-sm text-gray-600">
                             Statut :
                             <span class="font-medium">{{ ticket.statut }}</span>
+                        </p>
+                        <p class="text-sm text-gray-600 font-extrabold">
+                            Nombre d'intervention(s) :
+                            {{ ticket.interventions.length }}
                         </p>
                     </div>
 
