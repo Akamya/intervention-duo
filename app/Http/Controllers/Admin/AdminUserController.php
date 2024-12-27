@@ -185,6 +185,7 @@ class AdminUserController extends Controller
                 "mois" => substr($ticket[$key]->created_at, 5, 2),
                 "jour" => substr($ticket[$key]->created_at, 8, 3),
                 "count" => $ticket[$key]->count,
+                "couleur" => "test",
             ];
             $ticketsMois[$key]  =
                 [
@@ -202,10 +203,6 @@ class AdminUserController extends Controller
         $mois31 =  ['01', '02', '03', '05', '07', '08', '10', '12'];
         $mois30 = ['04', '06', '09', '11'];
         $ticketsgraphique = [];
-
-
-
-
 
         // $ticketsJour = substr($ticketDate[1], 8,2); = jour
         // $ticketsMois = substr($ticketDate[1], 5, 2); = mois

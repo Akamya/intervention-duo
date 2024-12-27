@@ -22,6 +22,60 @@ const ticketsgraphique = props.ticketsgraphique;
 // console.log(ticketsAnnee);
 console.log(ticketsAnnee);
 // console.log(ticketsgraphique);
+
+const typeCouleur = [
+    {
+        chiffreParTicket: "1",
+        couleur:
+            "border-blue-600 border-b-4 w-2 mb-2.5 rotate-90 justify-self-center",
+    },
+    {
+        chiffreParTicket: "2",
+        couleur:
+            "border-black border-b-4 w-4  relative  bottom-2 rotate-90 justify-self-center",
+    },
+    {
+        chiffreParTicket: "3",
+        couleur:
+            "border-yellow-500 border-b-4 w-5  relative  bottom-2.5 rotate-90 justify-self-center",
+    },
+    {
+        chiffreParTicket: "4",
+        couleur:
+            "border-red-400 border-b-4 w-6  relative  bottom-3 rotate-90 justify-self-center",
+    },
+
+    {
+        chiffreParTicket: "6",
+        couleur:
+            "border-purple-700 border-b-4 w-8  relative  bottom-4 rotate-90 justify-self-center",
+    },
+
+    {
+        chiffreParTicket: "8",
+        couleur:
+            "border-green-700 border-b-4 bottom-6 w-10  relative bottom-5 rotate-90 justify-self-center",
+    },
+    {
+        chiffreParTicket: "9",
+        couleur:
+            "border-orange-500 border-b-4 bottom-6 w-12  relative  bottom-6 rotate-90 justify-self-center",
+    },
+
+    {
+        chiffreParTicket: "10",
+        couleur:
+            "border-cyan-400 border-b-4 w-12 relative  bottom-6 rotate-90 justify-self-center",
+    },
+];
+
+for (let index = 0; index < ticketsAnnee.length; index++) {
+    const found = typeCouleur.find(
+        (element) => element.chiffreParTicket >= ticketsAnnee[index].count
+    );
+    ticketsAnnee[index].couleur = found.couleur;
+}
+console.log(ticketsAnnee);
 </script>
 
 <template>
@@ -31,16 +85,16 @@ console.log(ticketsAnnee);
                 Liste des Tickets et Interventions des Clients
             </h2>
         </template>
-        <div v-for="ticketAnnee in ticketsAnnee" class="mb-8">
-            <p>Date : {{ ticketAnnee.created_at }}</p>
-            <p>Annee : {{ ticketAnnee.annee }}</p>
-
-            <p>Mois : {{ ticketAnnee.mois }}</p>
-
-            <p>Jour : {{ ticketAnnee.jour }}</p>
-            <p>count: {{ ticketAnnee.count }}</p>
-
-            <!-- <p>Jour :{{ ticketJour.count }}</p> -->
+        <div class="flex justify-evenly flex-wrap mx-8 gap-2 align-middle">
+            <div class="content-end pt-14" v-for="ticketAnnee in ticketsAnnee">
+                <p :class="`${ticketAnnee.couleur}`"></p>
+                <p class="justify-self-center">
+                    Ticket(s): {{ ticketAnnee.count }}
+                </p>
+                <p class="justify-self-center">
+                    Date : {{ ticketAnnee.created_at }}
+                </p>
+            </div>
         </div>
 
         <div class="p-6 bg-gray-100 m-2 border-b-red-600">
