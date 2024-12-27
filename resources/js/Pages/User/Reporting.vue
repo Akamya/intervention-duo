@@ -85,15 +85,23 @@ console.log(ticketsAnnee);
                 Liste des Tickets et Interventions des Clients
             </h2>
         </template>
-        <div class="flex justify-evenly flex-wrap mx-8 gap-2 align-middle">
-            <div class="content-end pt-14" v-for="ticketAnnee in ticketsAnnee">
-                <p :class="`${ticketAnnee.couleur}`"></p>
-                <p class="justify-self-center">
-                    Ticket(s): {{ ticketAnnee.count }}
-                </p>
-                <p class="justify-self-center">
-                    Date : {{ ticketAnnee.created_at }}
-                </p>
+
+        <div class="border-4 mx-8">
+            <h1 class="font-extrabold text-center">Nombre de tickets</h1>
+
+            <div class="flex justify-evenly flex-wrap gap-2 align-middle py-2">
+                <div
+                    class="content-end pt-14"
+                    v-for="ticketAnnee in ticketsAnnee"
+                >
+                    <p :class="`${ticketAnnee.couleur}`"></p>
+                    <p class="justify-self-center">
+                        Ticket(s): {{ ticketAnnee.count }}
+                    </p>
+                    <p class="justify-self-center">
+                        Date : {{ ticketAnnee.created_at }}
+                    </p>
+                </div>
             </div>
         </div>
 
