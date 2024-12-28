@@ -69,11 +69,14 @@ const typeCouleur = [
     },
 ];
 
+const bigCouleur =
+    "border-pink-400 border-b-4 w-12 relative  bottom-6 rotate-90 justify-self-center";
+
 for (let index = 0; index < ticketsAnnee.length; index++) {
     const found = typeCouleur.find(
         (element) => element.chiffreParTicket >= ticketsAnnee[index].count
     );
-    ticketsAnnee[index].couleur = found.couleur;
+    ticketsAnnee[index].couleur = found?.couleur || bigCouleur;
 }
 console.log(ticketsAnnee);
 </script>
